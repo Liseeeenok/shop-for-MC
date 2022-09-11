@@ -272,6 +272,7 @@ local function printItemSale(itemGet) --Окно покупки товара
         clearFullScreen()
         selectedCount  = 0
         printHeaderTable()
+        checksum = 0
         return
       end
     end
@@ -359,6 +360,7 @@ local function printCountForSale(itemGet) --Окно выбора кол-ва т
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
         clearScreen()
+        checksum = 0
         return
       end
     end
