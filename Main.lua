@@ -320,7 +320,7 @@ local function printCountForSale(itemGet) --Окно выбора кол-ва т
       Sky.Table2(80,20,32,3,0x33DB00,0x334980, itemGet.sale)
       Sky.Table2(111,20,32,3,0x33DB00,0x334980, tostring(itemGet.countItem))
     end
-    local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")\
+    local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
         clearScreen() --Назад
