@@ -14,14 +14,14 @@ local listItemForSale = {} --Список предметов на продажу
 local checksum = 0 --Контрольная сумма +
 local checksumSave = 0 --Контрольная сумма сохраненая +
 local selectedCount = 0 --Выбранное количество предмета +
-local arrCategories = require('shop_db') --Таблица продаваемых предметов +
+local arrCategories = require('shop_bd') --Таблица продаваемых предметов +
  
 if not fs.exists("/lib/Sky.lua") then
     shell.execute("wget https://www.dropbox.com/s/1xbv3nrfpkm6mg0/Sky%28lib%29.lua?dl=1 /lib/Sky.lua")
 end
-if not fs.exists("/home/shop/shop_db.lua") then
-    shell.execute("wget https://raw.githubusercontent.com/Liseeeenok/shop-for-MC/main/shop_db.lua /home/shop/shop_db.lua")
-end
+
+shell.execute("wget https://raw.githubusercontent.com/Liseeeenok/shop-for-MC/main/shop_db.lua /home/shop/shop_bd.lua")
+
 local Sky = require("Sky") -- +
  
 local function getListChest() --Список сундуков со слитками +
@@ -46,8 +46,8 @@ local function getListItemForSale(itemGet) --Получаем список пр�
   local j = 1
   for i=1, listItemChest["n"] do --Проходим по таблице ресурсов в интерфейсе
     for key, value in pairs(itemGet) do --Проходим по таблице ресурсов для продажи
-      if listItemChest[j].name == value.name then --Если названия сходятся
-        local newItem = {id=value.id, rusName=value.rusName, sale=value.sale, countItem=listItemChest[j].size, idName=listItemChest[j].name} --Формируем новый объект
+      if listItemChest[j].name == value.name and listItemChest[j].damage == value.dmg then --Если названия сходятся
+        local newItem = {id=value.id, rusName=value.rusName, sale=value.sale, countItem=listItemChest[j].size, idName=listItemChest[j].name, dmg=value.dmg} --Формируем новый объект
         checksum = newItem.countItem + checksum; --Формируем контрольную сумму
         table.insert(listItemForSale, newItem) --Заполняем таблицу для продажи
       end
@@ -78,12 +78,12 @@ local function pullItemChest(count) --Переброска слитков +
   end
 end
  
-local function pullItemForSale(count, idName) --Переброска проданных предметов +
+local function pullItemForSale(count, itemGet) --Переброска проданных предметов +
   while count > 0 do
     if count > 64 then
-      count = count - acceptChest.exportItem({id=idName, _, _}, "UP", 64, _).size
+      count = count - acceptChest.exportItem({id=itemGet.idName, dmg=itemGet.dmg, _}, "UP", 64, _).size
     else
-      count = count - acceptChest.exportItem({id=idName, _, _}, "UP", count, _).size
+      count = count - acceptChest.exportItem({id=itemGet.idName, dmg=itemGet.dmg, _}, "UP", count, _).size
     end
     updChest()
   end
@@ -248,7 +248,7 @@ local function printItemSale(itemGet) --Окно покупки товара
     gpu.setForeground(0x33DB00)
     Sky.Text(160/2 - unicode.len("Процесс покупки товара...")/2,25,"Процесс покупки товара...")
     pullItemChest(math.ceil(selectedCount*itemGet.sale))
-    pullItemForSale(selectedCount, itemGet.idName)
+    pullItemForSale(selectedCount, itemGet)
     Sky.Text(160/2 - unicode.len("Спасибо за покупку!")/2,29,"Спасибо за покупку!")
     Sky.Text(160/2 - unicode.len("Товар уже в сундуке")/2,31,"Товар уже в сундуке")
     Sky.Text(160/2 - unicode.len("Не забудьте забрать слитки в главном меню!")/2,34,"Не забудьте забрать слитки в главном меню!")
