@@ -109,7 +109,7 @@ local function updSelectedCount(count) --Обновляет количество
   end
 end
  
-function event.shouldInterrupt()
+function event.shouldInterrupt() -- Блокирует закрытие через Ктрл + альт + С
     return false
 end
 ---------------------GUI------------------
@@ -300,6 +300,15 @@ local function printCountForSale(itemGet) --Окно выбора кол-ва т
   Sky.Button(66,29,11,3,0x994900,0x334980, "1")
   Sky.Button(77,29,11,3,0x994900,0x334980, "2")
   Sky.Button(88,29,11,3,0x994900,0x334980, "3")
+  Sky.Button(66,32,11,3,0x994900,0x334980, "4")
+  Sky.Button(77,32,11,3,0x994900,0x334980, "5")
+  Sky.Button(88,32,11,3,0x994900,0x334980, "6")
+  Sky.Button(66,35,11,3,0x994900,0x334980, "7")
+  Sky.Button(77,35,11,3,0x994900,0x334980, "8")
+  Sky.Button(88,35,11,3,0x994900,0x334980, "9")
+  Sky.Button(66,38,11,3,0x994900,0x334980, "←")
+  Sky.Button(77,38,11,3,0x994900,0x334980, "0")
+  Sky.Button(88,38,15,3,0x994900,0x334980, "Подтвердить")
   while true do
     updChest()
     printBalance()
@@ -311,61 +320,49 @@ local function printCountForSale(itemGet) --Окно выбора кол-ва т
       Sky.Table2(80,20,32,3,0x33DB00,0x334980, itemGet.sale)
       Sky.Table2(111,20,32,3,0x33DB00,0x334980, tostring(itemGet.countItem))
     end
-    local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
-    for i=1, 9 do
-      if i>=1 and i <=3 then
-        if e == "touch" then
-          if x >= 55+11*i and x <= 65+11*i and y >= 29 and y <= 31 then
-            updSelectedCount(i)
-            printSelectedCount(math.ceil(selectedCount*itemGet.sale))
-          end
-        end
-      end
-      if i>=4 and i <=6 then
-        Sky.Button(55+11*(i-3),32,11,3,0x994900,0x334980, tostring(i))
-        if e == "touch" then
-          if x >= 55+11*(i-3) and x <= 65+11*(i-3) and y >= 32 and y <= 34 then
-            updSelectedCount(i)
-            printSelectedCount(math.ceil(selectedCount*itemGet.sale))
-          end
-        end
-      end
-      if i>=7 and i <=9 then
-        Sky.Button(55+11*(i-6),35,11,3,0x994900,0x334980, tostring(i))
-        if e == "touch" then
-          if x >= 55+11*(i-6) and x <= 65+11*(i-6) and y >= 35 and y <= 37 then
-            updSelectedCount(i)
-            printSelectedCount(math.ceil(selectedCount*itemGet.sale))
-          end
-        end
-      end
-    end
-    Sky.Button(66,38,11,3,0x994900,0x334980, "←")
-    if e == "touch" then
-      if x >= 66 and x <= 76 and y >= 38 and y <= 40 then
-        updSelectedCount(-1)
-        printSelectedCount(math.ceil(selectedCount*itemGet.sale))
-      end
-    end
-    Sky.Button(77,38,11,3,0x994900,0x334980, "0")
-    if e == "touch" then
-      if x >= 77 and x <= 87 and y >= 38 and y <= 40 then
-        updSelectedCount(0)
-        printSelectedCount(math.ceil(selectedCount*itemGet.sale))
-      end
-    end
-    Sky.Button(88,38,15,3,0x994900,0x334980, "Подтвердить")
-    if e == "touch" then
-      if x >= 88 and  x <= 125 and y >= 38 and y <= 40 then
-        printItemSale(itemGet)
-        return
-      end
-    end
+    local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")\
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
-        clearScreen()
+        clearScreen() --Назад
+        selectedCount = 0
         checksumSave = 0
         return
+      elseif x >= 88 and  x <= 125 and y >= 38 and y <= 40 then
+        printItemSale(itemGet) --Подтвердить
+        return
+      elseif x >= 66 and x <= 76 and y >= 38 and y <= 40 then
+        updSelectedCount(-1)
+        printSelectedCount(math.ceil(selectedCount*itemGet.sale)) --backspace
+      elseif x >= 77 and x <= 87 and y >= 38 and y <= 40 then
+        updSelectedCount(0)
+        printSelectedCount(math.ceil(selectedCount*itemGet.sale)) --0
+      else
+        local xBut1
+        local xBut2
+        for i=1, 9 do
+            if i>=1 and i <=3 then
+                xBut1 = 55+11*i
+                xBut2 = 65+11*i
+                if x >= xBut1 and x <= xBut2 and y >= 29 and y <= 31 then
+                  updSelectedCount(i)
+                  printSelectedCount(math.ceil(selectedCount*itemGet.sale))
+                end
+            elseif i>=4 and i <=6 then
+                xBut1 = 55+11*(i-3)
+                xBut2 = 65+11*(i-3)
+                if x >= xBut1 and x <= xBut2 and y >= 32 and y <= 34 then
+                  updSelectedCount(i)
+                  printSelectedCount(math.ceil(selectedCount*itemGet.sale))
+                end
+            elseif i>=7 and i <=9 then
+                xBut1 = 55+11*(i-6)
+                xBut2 = 65+11*(i-6)
+                if x >= xBut1 and x <= xBut2 and y >= 35 and y <= 37 then
+                  updSelectedCount(i)
+                  printSelectedCount(math.ceil(selectedCount*itemGet.sale))
+                end
+            end
+        end
       end
     end
   end
@@ -373,7 +370,7 @@ end
  
 local function printCategory(itemGet) --Окно товара в категории
   clearFullScreen()
-  printHeaderTable()
+  getListItemForSale(itemGet)
   while true do
     updChest()
     printBalance()
@@ -393,13 +390,12 @@ local function printCategory(itemGet) --Окно товара в категор�
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
         clearFullScreen()
         return
-      end
-    end
-    for index, item in pairs(listItemForSale) do
-      if e == "touch" then
-        if x >= 16 and  x <= 142 and y >= 18+index*2 and y <= 20+index*2 then
-          checksumSave = 0
-          printCountForSale(item)
+      else
+        for index, item in pairs(listItemForSale) do
+          if x >= 16 and  x <= 142 and y >= 18+index*2 and y <= 20+index*2 then
+            checksumSave = 0
+            printCountForSale(item)
+          end
         end
       end
     end
