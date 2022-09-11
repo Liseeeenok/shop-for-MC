@@ -11,41 +11,7 @@ local countAllItem = 0 --Количество слитков для обмена
 local acceptChest = com.me_interface --Получаем интерфейс для отправки предметов +
 local listItemForSale = {} --Список предметов на продажу +
 local selectedCount = 0 --Выбранное количество предмета +
-local arrCategories = { --Таблица продаваемых предметов +
-    {
-      category="Ванила",
-      items={
-      {
-        id="49",
-        name="minecraft:obsidian",
-        sale="0.50",
-        rusName="Обсидиан"},
-      {
-        id="352",
-        name="minecraft:bone",
-        sale="0.09",
-        rusName="Кость"}
-      }
-    },{
-      category="IC2",
-      items={
-      {
-        id="4145",
-        name="IC2:item.itemOreIridium",
-        sale="150",
-        rusName="Иридиевая руда"}
-      }
-    },{
-      category="Ender IO",
-      items={
-      {
-        id="4710",
-        name="EnderIO:itemItemConduit",
-        sale="0.15",
-        rusName="Предметная труба"}
-       }
-     }
-}
+local arrCategories = require('arrCategories') --Таблица продаваемых предметов +
  
 if not fs.exists("/lib/Sky.lua") then
     shell.execute("wget https://www.dropbox.com/s/1xbv3nrfpkm6mg0/Sky%28lib%29.lua?dl=1 /lib/Sky.lua")
