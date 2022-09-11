@@ -22,12 +22,20 @@ local arrCategories = { --Таблица продаваемых предмето
             id="4145",
             name="IC2:item.itemOreIridium",
             sale="150",
-            rusName="Иридиевая руда"},
+            rusName="Иридиевая руда",
+            dmg=0},
         {
             id="1335",
             name="AdvancedSolarPanel:BlockAdvSolarPanel",
             sale="25",
-            rusName="Солнечная панель 1-го уровня"}
+            rusName="Солнечная панель 1-го уровня",
+            dmg=0},
+            {
+            id="1335:1",
+            name="AdvancedSolarPanel:BlockAdvSolarPanel",
+            sale="200",
+            rusName="Солнечная панель 2-го уровня",
+            dmg=1}
         }
     },{
         category="Ender IO",
@@ -36,7 +44,8 @@ local arrCategories = { --Таблица продаваемых предмето
             id="4710",
             name="EnderIO:itemItemConduit",
             sale="0.15",
-            rusName="Предметная труба"}
+            rusName="Предметная труба",
+            dmg=0}
         }
     }
 }

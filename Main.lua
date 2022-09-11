@@ -14,13 +14,15 @@ local listItemForSale = {} --Список предметов на продажу
 local checksum = 0 --Контрольная сумма +
 local checksumSave = 0 --Контрольная сумма сохраненая +
 local selectedCount = 0 --Выбранное количество предмета +
-local arrCategories = require('shop_bd') --Таблица продаваемых предметов +
+
  
 if not fs.exists("/lib/Sky.lua") then
     shell.execute("wget https://www.dropbox.com/s/1xbv3nrfpkm6mg0/Sky%28lib%29.lua?dl=1 /lib/Sky.lua")
 end
 
 shell.execute("wget -f https://raw.githubusercontent.com/Liseeeenok/shop-for-MC/main/shop_db.lua /home/shop/shop_bd.lua")
+
+local arrCategories = require('shop_bd') --Таблица продаваемых предметов +
 
 local Sky = require("Sky") -- +
  
