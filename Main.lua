@@ -370,11 +370,11 @@ end
  
 local function printCategory(itemGet) --Окно товара в категории
   clearFullScreen()
-  getListItemForSale(itemGet)
   printHeaderTable()
   while true do
     updChest()
     printBalance()
+    getListItemForSale(itemGet)
     if checksumSave ~= checksum then
         checksumSave = checksum
         clearScreen()
@@ -385,7 +385,6 @@ local function printCategory(itemGet) --Окно товара в категор�
           Sky.Table2(111,18+index*2,32,3,0x33DB00,0x334980, tostring(item.countItem))
         end
     end
-    getListItemForSale(itemGet)
     local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
