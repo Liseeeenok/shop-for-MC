@@ -374,21 +374,21 @@ local function printCategory(itemGet) --Окно товара в категор�
     updChest()
     getListItemForSale(itemGet)
     printBalance()
+    if checksumSave ~= checksum then
+        checksumSave = checksum
+        clearScreen()
+        for index, item in pairs(listItemForSale) do
+          Sky.Table1(16,18+index*2,32,3,0x33DB00,0x334980, item.id)
+          Sky.Table2(47,18+index*2,34,3,0x33DB00,0x334980, item.rusName)
+          Sky.Table2(80,18+index*2,32,3,0x33DB00,0x334980, item.sale)
+          Sky.Table2(111,18+index*2,32,3,0x33DB00,0x334980, tostring(item.countItem))
+        end
+    end
     local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
         clearFullScreen()
         return
-      end
-    end
-    if checksumSave ~= checksum then
-      checksumSave = checksum
-      clearScreen()
-      for index, item in pairs(listItemForSale) do
-        Sky.Table1(16,18+index*2,32,3,0x33DB00,0x334980, item.id)
-        Sky.Table2(47,18+index*2,34,3,0x33DB00,0x334980, item.rusName)
-        Sky.Table2(80,18+index*2,32,3,0x33DB00,0x334980, item.sale)
-        Sky.Table2(111,18+index*2,32,3,0x33DB00,0x334980, tostring(item.countItem))
       end
     end
     for index, item in pairs(listItemForSale) do
