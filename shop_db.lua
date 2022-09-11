@@ -35,7 +35,19 @@ local arrCategories = { --Таблица продаваемых предмето
             name="AdvancedSolarPanel:BlockAdvSolarPanel",
             sale="200",
             rusName="Солнечная панель 2-го уровня",
-            dmg=1}
+            dmg=1},
+            {
+            id="4208",
+            name="IC2:item.itemPartCircuit",
+            sale="3.5",
+            rusName="Обычная электросхема",
+            dmg=0},
+            {
+            id="4207",
+            name="IC2:item.itemPartCircuitAdv",
+            sale="5",
+            rusName="Улучшенная электросхема",
+            dmg=0}
         }
     },{
         category="Ender IO",
