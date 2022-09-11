@@ -40,6 +40,7 @@ local indexGiveChest = tonumber(io.read()) --Получаем сундук дл�
 local giveChest = com.proxy(arrChest[indexGiveChest])
  
 local function getListItemForSale(itemGet) --Получаем список предметов на продажу +
+  checksum = 0 --Обнуляем контрольную сумму
   listItemForSale = {} --Обнуляем прошлый список
   local listItemChest = acceptChest.getItemsInNetwork() --Смотрим какие ресурсы в сундуке лежат
   local j = 1
@@ -386,10 +387,12 @@ local function printCategory(itemGet) --Окно товара в категор�
         Sky.Table2(47,18+index*2,34,3,0x33DB00,0x334980, item.rusName)
         Sky.Table2(80,18+index*2,32,3,0x33DB00,0x334980, item.sale)
         Sky.Table2(111,18+index*2,32,3,0x33DB00,0x334980, tostring(item.countItem))
-        if e == "touch" then
-          if x >= 16 and  x <= 142 and y >= 18+index*2 and y <= 20+index*2 then
-            printCountForSale(item)
-          end
+      end
+    end
+    for index, item in pairs(listItemForSale) do
+      if e == "touch" then
+        if x >= 16 and  x <= 142 and y >= 18+index*2 and y <= 20+index*2 then
+          printCountForSale(item)
         end
       end
     end
