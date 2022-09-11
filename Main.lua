@@ -404,32 +404,47 @@ end
 -------------------------------------------------------------------
 term.clear()
 printLogo()
+local redrawing = true
 while true do
   updChest()
   printBalance()
-  local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
   setOldColor()
-  Sky.Button(72,14,16,3,0x33DB00,0x334980, "Категории:")
+  if redrawing then
+    Sky.Button(72,14,16,3,0x33DB00,0x334980, "Категории:")
+    for index, item in pairs(arrCategories) do
+      if index <= 4 then
+        local xBut = 16+32*(index-1)
+        Sky.Button(xBut,18,32,3,0x33DB00,0x334980, item.category)
+      elseif index > 4 and index <= 8 then
+        local xBut = 16+32*(index-5)
+        Sky.Button(16+32*(index-5),22,32,3,0x33DB00,0x334980, item.category)
+      end
+    end
+    Sky.Button(71,48,18,3,0x33DB00,0x334980, "Забрать слитки")
+    redrawing = false
+  end
+  local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
   for index, item in pairs(arrCategories) do
     if index <= 4 then
       local xBut = 16+32*(index-1)
-      Sky.Button(xBut,18,32,3,0x33DB00,0x334980, item.category)
       if e == "touch" then
         if x >= xBut and x <= xBut + 31 and y >= 18 and y <= 20 then
+          checksum = 0
+          redrawing = true
           printCategory(item.items)
         end
       end
     elseif index > 4 and index <= 8 then
       local xBut = 16+32*(index-5)
-      Sky.Button(16+32*(index-5),22,32,3,0x33DB00,0x334980, item.category)
       if e == "touch" then
         if x >= xBut and x <= xBut + 31 and y >= 22 and y <= 24 then
+          checksum = 0
+          redrawing = true
           printCategory(item.items)
         end
       end
     end
   end
-  Sky.Button(71,48,18,3,0x33DB00,0x334980, "Забрать слитки")
   if e == "touch" then
    if x >= 71 and x <= 88 and y >= 48 and y <= 50 then
       giveAll()
