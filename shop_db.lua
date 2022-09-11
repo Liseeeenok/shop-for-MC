@@ -6,7 +6,8 @@ local arrCategories = { --Таблица продаваемых предмето
             id="49",
             name="minecraft:obsidian",
             sale="0.50",
-            rusName="Обсидиан"},
+            rusName="Обсидиан",
+            dmg=0},
         {
             id="352",
             name="minecraft:bone",
