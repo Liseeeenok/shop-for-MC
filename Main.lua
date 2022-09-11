@@ -216,7 +216,17 @@ local function clearFullScreen() --Отчистка экрана полност�
   gpu.setBackground(0)
   gpu.fill(1, 11, 160, 40, " ")
 end
- 
+
+local function printHeaderTable()
+    gpu.setForeground(0x994900)
+    Sky.Button(72,14,16,3,0x33DB00,0x334980, "Назад:")
+    Sky.Text(16,17,"Для покупки нужно нажать на название предмета")
+    Sky.Button(16,18,32,3,0x994900,0x334980, "id")
+    Sky.Button(47,18,34,3,0x994900,0x334980, "Название")
+    Sky.Button(80,18,32,3,0x994900,0x334980, "Цена за 1 шт")
+    Sky.Button(111,18,32,3,0x994900,0x334980, "Количество в сети")
+end
+
 local function printItemSale(itemGet) --Окно покупки товара
   printBalance()
   clearFullScreen()
@@ -255,8 +265,9 @@ local function printItemSale(itemGet) --Окно покупки товара
     local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 38 and y <= 40 then
-        clearScreen()
+        clearFullScreen()
         selectedCount  = 0
+        printHeaderTable()
         return
       end
     end
@@ -351,14 +362,8 @@ local function printCountForSale(itemGet) --Окно выбора кол-ва т
 end
  
 local function printCategory(itemGet) --Окно товара в категории
-  clearScreen()
-  gpu.setForeground(0x994900)
-  Sky.Button(72,14,16,3,0x33DB00,0x334980, "Назад:")
-  Sky.Text(16,17,"Для покупки нужно нажать на название предмета")
-  Sky.Button(16,18,32,3,0x994900,0x334980, "id")
-  Sky.Button(47,18,34,3,0x994900,0x334980, "Название")
-  Sky.Button(80,18,32,3,0x994900,0x334980, "Цена за 1 шт")
-  Sky.Button(111,18,32,3,0x994900,0x334980, "Количество в сети")
+  clearFullScreen()
+  printHeaderTable()
   while true do
     updChest()
     getListItemForSale(itemGet)
@@ -393,6 +398,7 @@ while true do
   updChest()
   printBalance()
   local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
+  setOldColor()
   Sky.Button(72,14,16,3,0x33DB00,0x334980, "Категории:")
   for index, item in pairs(arrCategories) do
     if index <= 4 then
@@ -424,6 +430,7 @@ while true do
     if x == 1 and y == 1 then
        giveAll()
        setOldColor()
+       term.clear()
        os.exit()
      end
    end
