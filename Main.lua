@@ -360,7 +360,7 @@ local function printCountForSale(itemGet) --Окно выбора кол-ва т
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
         clearScreen()
-        checksum = 0
+        checksumSave = 0
         return
       end
     end
@@ -429,7 +429,7 @@ while true do
       local xBut = 16+32*(index-1)
       if e == "touch" then
         if x >= xBut and x <= xBut + 31 and y >= 18 and y <= 20 then
-          checksum = 0
+          checksumSave = 0
           redrawing = true
           printCategory(item.items)
         end
@@ -438,7 +438,7 @@ while true do
       local xBut = 16+32*(index-5)
       if e == "touch" then
         if x >= xBut and x <= xBut + 31 and y >= 22 and y <= 24 then
-          checksum = 0
+          checksumSave = 0
           redrawing = true
           printCategory(item.items)
         end
