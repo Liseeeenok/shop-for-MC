@@ -16,6 +16,9 @@ local arrCategories = require('shop_db') --Таблица продаваемых
 if not fs.exists("/lib/Sky.lua") then
     shell.execute("wget https://www.dropbox.com/s/1xbv3nrfpkm6mg0/Sky%28lib%29.lua?dl=1 /lib/Sky.lua")
 end
+if not fs.exists("/home/shop/shop_db.lua") then
+    shell.execute("wget https://raw.githubusercontent.com/Liseeeenok/shop-for-MC/main/shop_db.lua /home/shop/shop_db.lua")
+end
 local Sky = require("Sky") -- +
  
 local function getListChest() --Список сундуков со слитками +
