@@ -371,6 +371,7 @@ end
 local function printCategory(itemGet) --Окно товара в категории
   clearFullScreen()
   getListItemForSale(itemGet)
+  printHeaderTable()
   while true do
     updChest()
     printBalance()
