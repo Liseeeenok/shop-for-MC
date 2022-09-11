@@ -420,4 +420,11 @@ while true do
       setOldColor()
     end
   end
+  if e == "touch" then
+    if x == 1 and y == 1 then
+       giveAll()
+       setOldColor()
+       os.exit()
+     end
+   end
 end
