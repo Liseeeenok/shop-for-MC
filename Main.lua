@@ -251,6 +251,7 @@ local function printItemSale(itemGet) --Окно покупки товара
     pullItemForSale(selectedCount, itemGet.idName)
     Sky.Text(160/2 - unicode.len("Спасибо за покупку!")/2,29,"Спасибо за покупку!")
     Sky.Text(160/2 - unicode.len("Товар уже в сундуке")/2,31,"Товар уже в сундуке")
+    Sky.Text(160/2 - unicode.len("Не забудьте забрать слитки в главном меню!")/2,34,"Не забудьте забрать слитки в главном меню!")
   elseif math.ceil(selectedCount*itemGet.sale) > countAllItem then
     Sky.Text(160/2 - unicode.len("[ " .. "ОШИБКА" .. " ]")/2,25,"[ " .. "ОШИБКА" .. " ]")
     gpu.setForeground(0x33DB00)

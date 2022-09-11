@@ -20,7 +20,12 @@ local arrCategories = { --Таблица продаваемых предмето
         id="4145",
         name="IC2:item.itemOreIridium",
         sale="150",
-        rusName="Иридиевая руда"}
+        rusName="Иридиевая руда"},
+        {
+            id="1335",
+            name="AdvancedSoLarPanel:BlockfAdySolarPanel",
+            sale="25",
+            rusName="Солнечная панель 1-го уровня"}
       }
     },{
       category="Ender IO",
