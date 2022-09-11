@@ -8,6 +8,7 @@ local unicode = require("unicode") -- +
 local listChest = com.list("diamond") -- +
 local arrChest = {} --Таблица сундуков +
 local countAllItem = 0 --Количество слитков для обмена +
+local countAllItemSave = 0 --Количество слитков для обмена запомненных +
 local acceptChest = com.me_interface --Получаем интерфейс для отправки предметов +
 local listItemForSale = {} --Список предметов на продажу +
 local selectedCount = 0 --Выбранное количество предмета +
@@ -190,9 +191,12 @@ local function printLogo()
 end
  
 local function printBalance() --Вывод баланса +
-  gpu.setBackground(0)
-  gpu.fill(146,2,14,1, " ")
-  Sky.Button(145,1,16,3,0x33DB00,0x334980, "Баланс: "..countAllItem)
+  if countAllItemSave ~= countAllItem then
+    countAllItemSave = countAllItem
+    gpu.setBackground(0)
+    gpu.fill(146,2,14,1, " ")
+    Sky.Button(145,1,16,3,0x33DB00,0x334980, "Баланс: "..countAllItem)
+  end
 end
  
 local function printSelectedCount(price) --Вывод Коли-ва покупаемых предметов +
@@ -203,14 +207,19 @@ local function printSelectedCount(price) --Вывод Коли-ва покупа
   Sky.Text(85, 27, "Цена: "..price)
 end
  
-local function clearScreen() --Отчистка экрана
+local function clearScreen() --Отчистка таблицы
+  gpu.setBackground(0)
+  gpu.fill(1, 21, 160, 33, " ")
+end
+
+local function clearFullScreen() --Отчистка экрана полностью
   gpu.setBackground(0)
   gpu.fill(1, 11, 160, 40, " ")
 end
  
 local function printItemSale(itemGet) --Окно покупки товара
   printBalance()
-  clearScreen()
+  clearFullScreen()
 --------------------------Рамка--------------------------------------
   for i = 42, 119 do
     gpu.set(i,24,"=")
@@ -260,11 +269,6 @@ local function printCountForSale(itemGet) --Окно выбора кол-ва т
     updChest()
     printBalance()
     local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
-    Sky.Button(72,14,16,3,0x33DB00,0x334980, "Назад:")
-    Sky.Button(16,18,32,3,0x994900,0x334980, "id")
-    Sky.Button(47,18,34,3,0x994900,0x334980, "Название")
-    Sky.Button(80,18,32,3,0x994900,0x334980, "Цена за 1 шт")
-    Sky.Button(111,18,32,3,0x994900,0x334980, "Количество в сети")
     gpu.setBackground(0)
     gpu.fill(1, 21, 160, 2, " ")
     Sky.Table1(16,20,32,3,0x33DB00,0x334980, itemGet.id)
@@ -348,24 +352,24 @@ end
  
 local function printCategory(itemGet) --Окно товара в категории
   clearScreen()
+  gpu.setForeground(0x994900)
+  Sky.Button(72,14,16,3,0x33DB00,0x334980, "Назад:")
+  Sky.Text(16,17,"Для покупки нужно нажать на название предмета")
+  Sky.Button(16,18,32,3,0x994900,0x334980, "id")
+  Sky.Button(47,18,34,3,0x994900,0x334980, "Название")
+  Sky.Button(80,18,32,3,0x994900,0x334980, "Цена за 1 шт")
+  Sky.Button(111,18,32,3,0x994900,0x334980, "Количество в сети")
   while true do
     updChest()
     getListItemForSale(itemGet)
     printBalance()
     local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
-    Sky.Button(72,14,16,3,0x33DB00,0x334980, "Назад:")
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
-        clearScreen()
+        clearFullScreen()
         return
       end
     end
-    gpu.setForeground(0x994900)
-    Sky.Text(16,17,"Для покупки нужно нажать на название предмета")
-    Sky.Button(16,18,32,3,0x994900,0x334980, "id")
-    Sky.Button(47,18,34,3,0x994900,0x334980, "Название")
-    Sky.Button(80,18,32,3,0x994900,0x334980, "Цена за 1 шт")
-    Sky.Button(111,18,32,3,0x994900,0x334980, "Количество в сети")
     gpu.setBackground(0)
     gpu.fill(1, 21, 160, 33, " ")
     for index, item in pairs(listItemForSale) do
