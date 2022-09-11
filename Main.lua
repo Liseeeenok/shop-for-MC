@@ -281,35 +281,39 @@ end
  
 local function printCountForSale(itemGet) --Окно выбора кол-ва товара
   clearScreen()
+--------------------------Рамка--------------------------------------
+  gpu.setBackground(0x000000)
+  gpu.setForeground(0x334980)
+  for i = 42, 119 do
+      gpu.set(i,24,"=")
+      gpu.set(i,45,"=")
+  end
+  for i = 24, 45 do
+      gpu.set(40, i, "||")
+      gpu.set(120, i, "||")
+  end
+  Sky.Text(160/2 - unicode.len("[ " .. "Сколько Вы хотите купить?" .. " ]")/2,25,"[ " .. "Сколько Вы хотите купить?" .. " ]")
+  gpu.setForeground(0x33DB00)
+  Sky.Text(160/2 - unicode.len("Сколько Вы хотите купить?")/2,25,"Сколько Вы хотите купить?")
+--------------------------Рамка--------------------------------------
+  printSelectedCount(math.ceil(selectedCount*itemGet.sale))
+  Sky.Button(66,29,11,3,0x994900,0x334980, "1")
+  Sky.Button(77,29,11,3,0x994900,0x334980, "2")
+  Sky.Button(88,29,11,3,0x994900,0x334980, "3")
   while true do
     updChest()
     printBalance()
+    if checksumSave ~= checksum then
+      gpu.setBackground(0)
+      gpu.fill(1, 21, 160, 2, " ")
+      Sky.Table1(16,20,32,3,0x33DB00,0x334980, itemGet.id)
+      Sky.Table2(47,20,34,3,0x33DB00,0x334980, itemGet.rusName)
+      Sky.Table2(80,20,32,3,0x33DB00,0x334980, itemGet.sale)
+      Sky.Table2(111,20,32,3,0x33DB00,0x334980, tostring(itemGet.countItem))
+    end
     local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
-    gpu.setBackground(0)
-    gpu.fill(1, 21, 160, 2, " ")
-    Sky.Table1(16,20,32,3,0x33DB00,0x334980, itemGet.id)
-    Sky.Table2(47,20,34,3,0x33DB00,0x334980, itemGet.rusName)
-    Sky.Table2(80,20,32,3,0x33DB00,0x334980, itemGet.sale)
-    Sky.Table2(111,20,32,3,0x33DB00,0x334980, tostring(itemGet.countItem))
---------------------------Рамка--------------------------------------
-    gpu.setBackground(0x000000)
-    gpu.setForeground(0x334980)
-    for i = 42, 119 do
-        gpu.set(i,24,"=")
-        gpu.set(i,45,"=")
-    end
-    for i = 24, 45 do
-        gpu.set(40, i, "||")
-        gpu.set(120, i, "||")
-    end
-    Sky.Text(160/2 - unicode.len("[ " .. "Сколько Вы хотите купить?" .. " ]")/2,25,"[ " .. "Сколько Вы хотите купить?" .. " ]")
-    gpu.setForeground(0x33DB00)
-    Sky.Text(160/2 - unicode.len("Сколько Вы хотите купить?")/2,25,"Сколько Вы хотите купить?")
---------------------------Рамка--------------------------------------
-    printSelectedCount(math.ceil(selectedCount*itemGet.sale))
     for i=1, 9 do
       if i>=1 and i <=3 then
-        Sky.Button(55+11*i,29,11,3,0x994900,0x334980, tostring(i))
         if e == "touch" then
           if x >= 55+11*i and x <= 65+11*i and y >= 29 and y <= 31 then
             updSelectedCount(i)
@@ -372,7 +376,6 @@ local function printCategory(itemGet) --Окно товара в категор�
   printHeaderTable()
   while true do
     updChest()
-    getListItemForSale(itemGet)
     printBalance()
     if checksumSave ~= checksum then
         checksumSave = checksum
@@ -384,6 +387,7 @@ local function printCategory(itemGet) --Окно товара в категор�
           Sky.Table2(111,18+index*2,32,3,0x33DB00,0x334980, tostring(item.countItem))
         end
     end
+    getListItemForSale(itemGet)
     local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
     if e == "touch" then
       if x >= 72 and  x <= 87 and y >= 14 and y <= 16 then
@@ -394,6 +398,7 @@ local function printCategory(itemGet) --Окно товара в категор�
     for index, item in pairs(listItemForSale) do
       if e == "touch" then
         if x >= 16 and  x <= 142 and y >= 18+index*2 and y <= 20+index*2 then
+          checksumSave = 0
           printCountForSale(item)
         end
       end
@@ -424,33 +429,31 @@ while true do
     redrawing = false
   end
   local e,adress,x,y,numberMouse,nick = event.pull(1, "touch")
-  for index, item in pairs(arrCategories) do
-    if index <= 4 then
-      local xBut = 16+32*(index-1)
-      if e == "touch" then
-        if x >= xBut and x <= xBut + 31 and y >= 18 and y <= 20 then
-          checksumSave = 0
-          redrawing = true
-          printCategory(item.items)
-        end
-      end
-    elseif index > 4 and index <= 8 then
-      local xBut = 16+32*(index-5)
-      if e == "touch" then
-        if x >= xBut and x <= xBut + 31 and y >= 22 and y <= 24 then
-          checksumSave = 0
-          redrawing = true
-          printCategory(item.items)
-        end
-      end
-    end
-  end
   if e == "touch" then
-   if x >= 71 and x <= 88 and y >= 48 and y <= 50 then
+    if y >= 48 and y <= 50 and x >= 71 and x <= 88 then
       giveAll()
       setOldColor()
+    else
+      for index, item in pairs(arrCategories) do
+        if index <= 4 then
+          local xBut = 16+32*(index-1)
+          if y >= 18 and y <= 20 and x >= xBut and x <= xBut + 31 then
+            checksumSave = 0
+            redrawing = true
+            printCategory(item.items)
+          end
+        elseif index > 4 and index <= 8 then
+          local xBut = 16+32*(index-5)
+          if y >= 22 and y <= 24 and x >= xBut and x <= xBut + 31 then
+            checksumSave = 0
+            redrawing = true
+            printCategory(item.items)
+          end
+        end
+      end
     end
   end
+-------------Временный выход из программы-------------------------
   if e == "touch" then
     if x == 1 and y == 1 then
        giveAll()
