@@ -47,6 +47,18 @@ local arrCategories = { --Таблица продаваемых предмето
             name="IC2:item.itemPartCircuitAdv",
             sale="5",
             rusName="Улучшенная электросхема",
+            dmg=0},
+            {
+            id="4142",
+            name="IC2:item.ic2upgrades",
+            sale="7.5",
+            rusName="Улучшение [Ускоритель]",
+            dmg=0},
+            {
+            id="4167",
+            name="IC2:item.itemPartCarbonPlate",
+            sale="2.5",
+            rusName="Углепластик",
             dmg=0}
         }
     },{
