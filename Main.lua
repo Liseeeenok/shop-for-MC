@@ -8,9 +8,11 @@ local unicode = require("unicode") -- +
 local listChest = com.list("diamond") -- +
 local arrChest = {} --Таблица сундуков +
 local countAllItem = 0 --Количество слитков для обмена +
-local countAllItemSave = 0 --Количество слитков для обмена запомненных +
+local countAllItemSave = 0 --Количество слитков для обмена сохраненые +
 local acceptChest = com.me_interface --Получаем интерфейс для отправки предметов +
 local listItemForSale = {} --Список предметов на продажу +
+local checksum = 0 --Контрольная сумма +
+local checksumSave = 0 --Контрольная сумма сохраненая +
 local selectedCount = 0 --Выбранное количество предмета +
 local arrCategories = require('shop_db') --Таблица продаваемых предметов +
  
@@ -45,6 +47,7 @@ local function getListItemForSale(itemGet) --Получаем список пр�
     for key, value in pairs(itemGet) do --Проходим по таблице ресурсов для продажи
       if listItemChest[j].name == value.name then --Если названия сходятся
         local newItem = {id=value.id, rusName=value.rusName, sale=value.sale, countItem=listItemChest[j].size, idName=listItemChest[j].name} --Формируем новый объект
+        checksum = newItem.countItem + checksum; --Формируем контрольную сумму
         table.insert(listItemForSale, newItem) --Заполняем таблицу для продажи
       end
     end
@@ -375,16 +378,18 @@ local function printCategory(itemGet) --Окно товара в категор�
         return
       end
     end
-    gpu.setBackground(0)
-    gpu.fill(1, 21, 160, 33, " ")
-    for index, item in pairs(listItemForSale) do
-      Sky.Table1(16,18+index*2,32,3,0x33DB00,0x334980, item.id)
-      Sky.Table2(47,18+index*2,34,3,0x33DB00,0x334980, item.rusName)
-      Sky.Table2(80,18+index*2,32,3,0x33DB00,0x334980, item.sale)
-      Sky.Table2(111,18+index*2,32,3,0x33DB00,0x334980, tostring(item.countItem))
-      if e == "touch" then
-        if x >= 16 and  x <= 142 and y >= 18+index*2 and y <= 20+index*2 then
-          printCountForSale(item)
+    if checksumSave ~= checksum then
+      checksumSave = checksum
+      clearScreen()
+      for index, item in pairs(listItemForSale) do
+        Sky.Table1(16,18+index*2,32,3,0x33DB00,0x334980, item.id)
+        Sky.Table2(47,18+index*2,34,3,0x33DB00,0x334980, item.rusName)
+        Sky.Table2(80,18+index*2,32,3,0x33DB00,0x334980, item.sale)
+        Sky.Table2(111,18+index*2,32,3,0x33DB00,0x334980, tostring(item.countItem))
+        if e == "touch" then
+          if x >= 16 and  x <= 142 and y >= 18+index*2 and y <= 20+index*2 then
+            printCountForSale(item)
+          end
         end
       end
     end
