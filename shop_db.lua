@@ -7,13 +7,13 @@ local arrCategories = { --Таблица продаваемых предмето
             name="minecraft:obsidian",
             sale="0.50",
             rusName="Обсидиан",
-            dmg="0"},
+            dmg=0},
         {
             id="352",
             name="minecraft:bone",
             sale="0.09",
             rusName="Кость",
-            dmg="0"}
+            dmg=0}
         }
     },{
         category="IC2",
