@@ -11,7 +11,7 @@ local countAllItem = 0 --Количество слитков для обмена
 local acceptChest = com.me_interface --Получаем интерфейс для отправки предметов +
 local listItemForSale = {} --Список предметов на продажу +
 local selectedCount = 0 --Выбранное количество предмета +
-local arrCategories = require('arrCategories') --Таблица продаваемых предметов +
+local arrCategories = require('shop_db') --Таблица продаваемых предметов +
  
 if not fs.exists("/lib/Sky.lua") then
     shell.execute("wget https://www.dropbox.com/s/1xbv3nrfpkm6mg0/Sky%28lib%29.lua?dl=1 /lib/Sky.lua")
